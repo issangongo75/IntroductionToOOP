@@ -25,14 +25,14 @@ public:
 		//this->str = new char[size] {};
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const char str[]):size(strlen(str) + 1),str(new char[size] {})
+	String(const char str[]):String(strlen(str)+1)
 	{
 		//this->size = strlen(str) + 1;
 		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other):size(other.size),str(new char[size] {})
+	String(const String& other):String(other.str)
 	{
 		//this->size = other.size;
 		//this->str = new char[size] {};
@@ -108,8 +108,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
-#define CONSTRUCTORS_CHECK
-//#define CALLING_CONSTRUCTORS
+//#define CONSTRUCTORS_CHECK
+#define CALLING_CONSTRUCTORS
 void main()
 {
 	setlocale(LC_ALL, "");

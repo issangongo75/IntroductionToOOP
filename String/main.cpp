@@ -19,27 +19,27 @@ public:
 	{
 		return str;
 	}
-	explicit String(int size = 80)
+	explicit String(int size = 80):size(size), str(new char[size ] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const char str[])
+	String(const char str[]):size(strlen(str) + 1),str(new char[size] {})
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other):size(other.size),str(new char[size] {})
 	{
-		this->size = other.size;
-		this->str = new char[size] {};
+		//this->size = other.size;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
-	String(String&& other)noexcept//r-value reference
+	String(String&& other)noexcept:size(other.size),str(other.str)//r-value reference
 	{
 		//Shallow copy:
 		this->size = other.size;
@@ -97,7 +97,7 @@ String operator+(const String& left, const String& right)
 	for (int i = 0; i < left.get_size(); i++)
 		buffer.get_str()[i] = left.get_str()[i];
 	for (int i = 0; i < right.get_size(); i++)
-		//buffer.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+		buffer.get_str()[i + left.get_size() - 1] = right.get_str()[i];
 
 		return buffer;
 }
@@ -109,9 +109,11 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 }
 
 #define CONSTRUCTORS_CHECK
+//#define CALLING_CONSTRUCTORS
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef CONSTRUCTORS_CHECK
 	String str1;
 	str1.print();
 
@@ -129,9 +131,34 @@ void main()
 	cout << str4 << endl;
 
 	//String str5 = str3 + str4;
+	cout << delimiter << endl;
 	String str5;
 	str5 = str3 + str4;
-	str5.print();
+	//str5.print();
 	cout << str5 << endl;
+	cout << delimiter << endl;
+#endif // CONSTRUCTORS_CHECK
+
+#ifdef CALLING_CONSTRUCTORS
+	String str1;
+	str1.print();
+
+	String str2(8);
+	str2.print();
+	String str3 = "Hello";
+	str3.print();
+
+	String str4();
+	//str4.print();
+	String str5{};
+	str5.print();
+
+
+	//String str6 = str3;
+	//String str6(str3);
+	String str6{ str3 };
+	str6.print();
+#endif // CALLING_CONSTRUTORS
+
 }
 
